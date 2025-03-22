@@ -1,6 +1,6 @@
 class Api::V1::ResponsesController < ApplicationController
   include ResponsesHelper
-  before_action :set_response, only: %i[ show update destroy ]
+  before_action :set_response, only: %i[ show update destroy delete]
 
   # GET /api/v1/responses
   def index
@@ -29,6 +29,14 @@ class Api::V1::ResponsesController < ApplicationController
   def update
     if @response.update(response_params)
       render json: @response
+    else
+      render json: @response.errors, status: :unprocessable_entity
+    end
+  end
+
+  def delete
+    if @response.delete
+      render json: @response, status: :deleted, location: @response
     else
       render json: @response.errors, status: :unprocessable_entity
     end
