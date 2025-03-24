@@ -105,7 +105,7 @@ module ResponsesHelper
     end
 
     def action_allowed?
-      return !session[:user].nil? unless %w[edit delete update view].include?(params[:action])
+      return !current_user.nil? unless %w[edit delete update view].include?(params[:action])
     
       response = Response.find(params[:id])
       user_id = response.map.reviewer&.user_id
